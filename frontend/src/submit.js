@@ -1,53 +1,59 @@
 // submit.js
-// Part 4: Sends the current pipeline (nodes + edges) to the FastAPI backend.
-// The backend counts them and checks if it's a DAG, then we show an alert.
+// Sends pipeline to backend for DAG analysis.
+// Shows result as a toast notification instead of a plain alert.
 
 import { useStore } from './store';
 import { shallow } from 'zustand/shallow';
+import { showToast } from './toast';
+
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 const selector = (state) => ({
-  nodes: state.nodes,
-  edges: state.edges,
+    nodes: state.nodes,
+    edges: state.edges,
+    currentPipelineId: state.currentPipelineId,
 });
 
 export const SubmitButton = () => {
-  const { nodes, edges } = useStore(selector, shallow);
+    const { nodes, edges, currentPipelineId } = useStore(selector, shallow);
 
-  const handleSubmit = async () => {
-    try {
-      // Send nodes and edges as JSON in the request body
-      // The backend endpoint is /pipelines/parse
-      const response = await fetch('http://127.0.0.1:8000/pipelines/parse', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nodes, edges }),
-      });
+    const handleSubmit = async () => {
+        if (nodes.length === 0) {
+            showToast('Add some nodes to the canvas first', 'warning');
+            return;
+        }
 
-      if (!response.ok) {
-        alert('Something went wrong. Make sure the backend is running.');
-        return;
-      }
+        try {
+            const res = await fetch(`${API_URL}/pipelines/parse`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nodes, edges, pipelineId: currentPipelineId }),
+            });
 
-      const data = await response.json();
+            if (!res.ok) {
+                showToast('Backend error — check the server', 'error');
+                return;
+            }
 
-      // Show user-friendly alert with the results
-      alert(
-        `✅ Pipeline Analysis\n\n` +
-        `📦 Nodes: ${data.num_nodes}\n` +
-        `🔗 Edges: ${data.num_edges}\n` +
-        `🔄 Is DAG (no loops): ${data.is_dag ? 'Yes ✅' : 'No ❌'}`
-      );
-    } catch (err) {
-      // This usually means the backend server isn't running
-      alert('Could not connect to the backend. Is the FastAPI server running?');
-    }
-  };
+            const data = await res.json();
 
-  return (
-    <div className="submit-area">
-      <button className="submit-btn" onClick={handleSubmit}>
-        Submit Pipeline
-      </button>
-    </div>
-  );
+            // Show result as individual toasts so it doesn't feel like a wall of text
+            showToast(
+                `Pipeline: ${data.num_nodes} nodes · ${data.num_edges} edges · ${data.is_dag ? 'Valid DAG ✅' : 'Has cycles ❌'}`,
+                data.is_dag ? 'success' : 'warning',
+                6000
+            );
+
+        } catch {
+            showToast('Could not connect to backend. Is the server running?', 'error');
+        }
+    };
+
+    return (
+        <div className="submit-area">
+            <button className="submit-btn" onClick={handleSubmit}>
+                ▶ Run Pipeline
+            </button>
+        </div>
+    );
 };

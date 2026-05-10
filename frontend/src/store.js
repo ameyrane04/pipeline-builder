@@ -9,6 +9,13 @@ import {
 export const useStore = create((set, get) => ({
     nodes: [],
     edges: [],
+    nodeIDs: {},
+
+    // Current saved pipeline id — set when user saves or loads a pipeline
+    // Used to update the correct pipeline on subsequent saves/submits
+    currentPipelineId: null,
+    currentPipelineName: '',
+
     getNodeID: (type) => {
         const newIDs = { ...get().nodeIDs };
         if (newIDs[type] === undefined) newIDs[type] = 0;
@@ -16,15 +23,19 @@ export const useStore = create((set, get) => ({
         set({ nodeIDs: newIDs });
         return `${type}-${newIDs[type]}`;
     },
+
     addNode: (node) => {
         set({ nodes: [...get().nodes, node] });
     },
+
     onNodesChange: (changes) => {
         set({ nodes: applyNodeChanges(changes, get().nodes) });
     },
+
     onEdgesChange: (changes) => {
         set({ edges: applyEdgeChanges(changes, get().edges) });
     },
+
     onConnect: (connection) => {
         set({
             edges: rfAddEdge({
@@ -35,37 +46,43 @@ export const useStore = create((set, get) => ({
             }, get().edges),
         });
     },
-    updateNodeField: (nodeId, fieldName, fieldValue) => {
+
+    // Load a full pipeline onto the canvas — replaces current nodes/edges
+    loadPipeline: (pipeline) => {
         set({
-            nodes: get().nodes.map((node) => {
-                if (node.id === nodeId) {
-                    node.data = { ...node.data, [fieldName]: fieldValue };
-                }
-                return node;
-            }),
+            nodes: pipeline.nodes || [],
+            edges: pipeline.edges || [],
+            currentPipelineId: pipeline._id,
+            currentPipelineName: pipeline.name,
         });
     },
 
-    // Delete a node by id — also cleans up any edges connected to it
+    // Clear canvas completely
+    clearCanvas: () => {
+        set({
+            nodes: [],
+            edges: [],
+            currentPipelineId: null,
+            currentPipelineName: '',
+            nodeIDs: {},
+        });
+    },
+
+    setPipelineName: (name) => set({ currentPipelineName: name }),
+
     deleteNode: (nodeId) => {
         set({
             nodes: get().nodes.filter((n) => n.id !== nodeId),
-            // Remove all edges where this node is either the source or target
             edges: get().edges.filter(
                 (e) => e.source !== nodeId && e.target !== nodeId
             ),
         });
     },
 
-    // Delete a single edge by id
     deleteEdge: (edgeId) => {
-        set({
-            edges: get().edges.filter((e) => e.id !== edgeId),
-        });
+        set({ edges: get().edges.filter((e) => e.id !== edgeId) });
     },
 
-    // Used by TextNode when a variable chip is removed —
-    // removes the specific edge that was created for that variable connection
     deleteEdgeByHandle: (targetNodeId, targetHandle) => {
         set({
             edges: get().edges.filter(
@@ -74,8 +91,6 @@ export const useStore = create((set, get) => ({
         });
     },
 
-    // Add a specific edge — used by TextNode to programmatically connect nodes
-    // when user selects a variable from the dropdown
     addEdge: (edge) => {
         set({
             edges: rfAddEdge({
