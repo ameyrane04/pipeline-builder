@@ -1,0 +1,430 @@
+/* index.css — Global styles for the VectorShift pipeline builder */
+
+/* ---- Reset & Base ---- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #0f1117;
+  color: #e2e8f0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ---- App Layout ---- */
+/* The whole app is a vertical flex column: toolbar on top, canvas in middle, button at bottom */
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* ---- Toolbar ---- */
+.toolbar {
+  background-color: #1a1f2e;
+  border-bottom: 1px solid #2d3748;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  z-index: 10;
+}
+
+.toolbar-logo {
+  font-size: 18px;
+  font-weight: 700;
+  color: #7c3aed;
+  letter-spacing: -0.5px;
+  margin-right: 10px;
+}
+
+.toolbar-nodes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Individual draggable node chip in the toolbar */
+.draggable-node {
+  cursor: grab;
+  padding: 7px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #e2e8f0;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.draggable-node:hover {
+  border-color: #7c3aed;
+  background-color: #2d2060 !important;
+}
+
+.draggable-node:active {
+  cursor: grabbing;
+}
+
+/* ---- Pipeline Canvas ---- */
+.pipeline-canvas {
+  flex: 1;
+  position: relative;
+}
+
+/* ---- Submit Button Area ---- */
+.submit-area {
+  background-color: #1a1f2e;
+  border-top: 1px solid #2d3748;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.submit-btn {
+  background: linear-gradient(135deg, #7c3aed, #5b21b6);
+  color: white;
+  border: none;
+  padding: 10px 40px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.1s ease;
+  letter-spacing: 0.3px;
+}
+
+.submit-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.submit-btn:active {
+  transform: translateY(0);
+}
+
+/* ---- Base Node ---- */
+/* Every node shares these styles — defined once here */
+.base-node {
+  background-color: #1e2435;
+  border: 1px solid #2d3748;
+  border-radius: 10px;
+  min-width: 200px;
+  font-size: 13px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  transition: border-color 0.15s ease;
+  overflow: visible;
+  position: relative;
+}
+
+.base-node:hover {
+  border-color: #7c3aed;
+}
+
+/* The coloured header strip at the top of each node */
+.base-node-header {
+  background: linear-gradient(135deg, #7c3aed, #5b21b6);
+  padding: 8px 12px;
+  border-radius: 8px 8px 0 0;
+  font-weight: 600;
+  font-size: 13px;
+  color: white;
+  letter-spacing: 0.2px;
+}
+
+/* The content area below the header */
+.base-node-content {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ---- Node Fields ---- */
+.node-label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 11px;
+  color: #94a3b8;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.node-input,
+.node-select,
+.node-textarea {
+  background-color: #0f1117;
+  border: 1px solid #2d3748;
+  border-radius: 5px;
+  color: #e2e8f0;
+  font-size: 12px;
+  padding: 5px 8px;
+  width: 100%;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.15s ease;
+}
+
+.node-input:focus,
+.node-select:focus,
+.node-textarea:focus {
+  border-color: #7c3aed;
+}
+
+.node-select option {
+  background-color: #1e2435;
+}
+
+.node-textarea {
+  resize: none;
+  overflow: hidden;
+  min-height: 60px;
+  line-height: 1.5;
+}
+
+.node-description {
+  font-size: 11px;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+/* ---- Handle Labels ---- */
+/* Small text labels that appear next to the connection dots */
+.handle-label {
+  position: absolute;
+  font-size: 10px;
+  color: #94a3b8;
+  transform: translateY(-50%);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.handle-label-left {
+  left: 12px; /* sits just inside the left edge, next to the handle */
+}
+
+.handle-label-right {
+  right: 12px; /* sits just inside the right edge, next to the handle */
+}
+
+/* ---- ReactFlow Handle Overrides ---- */
+/* The actual connection dots */
+.react-flow__handle {
+  width: 10px;
+  height: 10px;
+  background-color: #7c3aed;
+  border: 2px solid #1e2435;
+  transition: background-color 0.15s;
+}
+
+.react-flow__handle:hover {
+  background-color: #a78bfa;
+}
+
+/* ---- ReactFlow Canvas Overrides ---- */
+.react-flow__background {
+  background-color: #0f1117;
+}
+
+.react-flow__minimap {
+  background-color: #1a1f2e;
+  border: 1px solid #2d3748;
+  border-radius: 8px;
+}
+
+.react-flow__controls {
+  background-color: #1a1f2e;
+  border: 1px solid #2d3748;
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+.react-flow__controls-button {
+  background-color: #1a1f2e;
+  border-color: #2d3748;
+  color: #94a3b8;
+}
+
+.react-flow__controls-button:hover {
+  background-color: #2d3748;
+}
+
+/* Edge (connection line) color */
+.react-flow__edge-path {
+  stroke: #7c3aed;
+  stroke-width: 2;
+}
+
+/* ---- Text Node Variable System ---- */
+
+/* The box that holds chips + textarea together */
+.text-node-input-area {
+  background-color: #0f1117;
+  border: 1px solid #2d3748;
+  border-radius: 5px;
+  padding: 6px 8px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  min-height: 60px;
+  cursor: text;
+  transition: border-color 0.15s;
+}
+
+.text-node-input-area:focus-within {
+  border-color: #7c3aed;
+}
+
+/* Plain text segments between chips */
+.text-node-plain {
+  font-size: 12px;
+  color: #e2e8f0;
+  white-space: pre-wrap;
+  line-height: 1.5;
+}
+
+/* Variable chip — the purple tag like "input_0.text ×" */
+.text-node-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: #2d1f6b;
+  border: 1px solid #7c3aed;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 11px;
+  color: #c4b5fd;
+  white-space: nowrap;
+}
+
+.chip-icon {
+  font-size: 10px;
+  opacity: 0.7;
+}
+
+/* The × button inside each chip */
+.chip-remove {
+  background: none;
+  border: none;
+  color: #a78bfa;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 0 0 0 2px;
+  transition: color 0.1s;
+}
+
+.chip-remove:hover {
+  color: #f87171;
+}
+
+/* The actual textarea inside the input area — invisible, just for typing */
+.text-node-textarea {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #e2e8f0;
+  font-size: 12px;
+  font-family: inherit;
+  resize: none;
+  overflow: hidden;
+  min-width: 80px;
+  flex: 1;
+  line-height: 1.5;
+  padding: 0;
+}
+
+/* ---- Variable Dropdown ---- */
+.variable-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background-color: #1e2435;
+  border: 1px solid #7c3aed;
+  border-radius: 8px;
+  z-index: 1000;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  overflow: hidden;
+}
+
+.dropdown-header {
+  padding: 8px 12px;
+  background-color: #2d1f6b;
+  font-size: 11px;
+  color: #c4b5fd;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* The "Step 1" / "Step 2" badge */
+.dropdown-step {
+  background-color: #7c3aed;
+  color: white;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+}
+
+/* Back button in step 2 */
+.dropdown-back {
+  cursor: pointer;
+  color: #a78bfa;
+  font-size: 11px;
+  margin-right: auto;
+}
+
+.dropdown-back:hover {
+  color: white;
+}
+
+.dropdown-item {
+  padding: 8px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.1s;
+  border-bottom: 1px solid #2d3748;
+}
+
+.dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.dropdown-item:hover {
+  background-color: #2d3748;
+}
+
+.dropdown-item-id {
+  color: #e2e8f0;
+  font-weight: 500;
+}
+
+.dropdown-item-type {
+  color: #64748b;
+  font-size: 10px;
+  background-color: #0f1117;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.dropdown-empty {
+  padding: 12px;
+  font-size: 12px;
+  color: #64748b;
+  text-align: center;
+}
