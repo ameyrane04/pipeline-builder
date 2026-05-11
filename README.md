@@ -1,6 +1,6 @@
 # Pipeline Builder
 
-A visual AI pipeline builder inspired by tools like n8n and LangFlow. Drag, connect, and configure nodes to build data processing workflows — then submit to validate and analyze your pipeline.
+FlowCraft — Visual AI Pipeline BuilderA full-stack visual pipeline builder for designing and executing AI workflows. Drag, connect, and configure nodes to build data processing pipelines — then execute them end-to-end with real AI model integration.Inspired by tools like n8n and LangFlow.
 
 ![Pipeline Builder](https://img.shields.io/badge/React-18-blue) ![Node](https://img.shields.io/badge/Node.js-Express-green) ![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-brightgreen)
 
@@ -14,6 +14,8 @@ A visual AI pipeline builder inspired by tools like n8n and LangFlow. Drag, conn
 - **Save & Load** — persist pipelines to MongoDB, load them back onto the canvas
 - **Submit History** — every pipeline submission is logged with results
 - **Delete Support** — select any node or edge and press Backspace/Delete to remove
+- **Topological Execution:** Pipelines are executed in strict logical order using **Kahn's Algorithm** to handle dependencies.
+- **Real-time AI Integration:** Native support for **Groq** and **OpenAI** LLMs.
 
 ## Tech Stack
 
@@ -82,3 +84,9 @@ pipeline-builder/
 ## How DAG Detection Works
 
 The backend uses **Kahn's Algorithm** to detect cycles in the pipeline graph. It counts incoming edges per node (in-degree), processes nodes with zero incoming edges first, and checks if all nodes can be processed. If any nodes remain unprocessed, a cycle exists.
+
+## Future RoadMap
+Collaboration Mode: Real-time multi-user editing using WebSockets (Socket.io).
+Custom Node Code: Allow users to write small JavaScript snippets for custom data transformations.
+Local LLM Support: Integration with Ollama for running models locally.
+Version Control: Snapshotting pipelines to roll back to previous configurations.
