@@ -1,13 +1,8 @@
-// ui.js
-// Added: keyboard delete support for selected nodes/edges
-// Added: onNodesDelete and onEdgesDelete handlers
-
 import { useState, useRef, useCallback } from 'react';
-import ReactFlow, {
-    Controls, Background, MiniMap
-} from 'reactflow';
+import ReactFlow, { Controls, Background, MiniMap } from 'reactflow';
 import { useStore } from './store';
 import { shallow } from 'zustand/shallow';
+import { HistoryPanel } from './historyPanel';
 
 import { InputNode } from './nodes/inputNode';
 import { LLMNode } from './nodes/llmNode';
@@ -89,12 +84,10 @@ export const PipelineUI = () => {
         event.dataTransfer.dropEffect = 'move';
     }, []);
 
-    // Called by ReactFlow when user presses Backspace/Delete on selected nodes
     const onNodesDelete = useCallback((deletedNodes) => {
         deletedNodes.forEach((node) => deleteNode(node.id));
     }, [deleteNode]);
 
-    // Called by ReactFlow when user presses Backspace/Delete on selected edges
     const onEdgesDelete = useCallback((deletedEdges) => {
         deletedEdges.forEach((edge) => deleteEdge(edge.id));
     }, [deleteEdge]);
@@ -125,6 +118,9 @@ export const PipelineUI = () => {
                     maskColor="rgba(0,0,0,0.6)"
                 />
             </ReactFlow>
+
+            {/* History panel sits inside the canvas area */}
+            <HistoryPanel />
         </div>
     );
 };

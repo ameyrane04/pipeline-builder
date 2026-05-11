@@ -1,6 +1,3 @@
-// noteNode.js
-// A simple sticky note — no handles, no connections.
-// Used to leave comments or labels on the canvas for documentation purposes.
 
 import { useState } from 'react';
 import { BaseNode } from './baseNode';

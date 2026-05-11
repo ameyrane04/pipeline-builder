@@ -1,12 +1,7 @@
 // toast.js
-// A lightweight toast notification system.
-// Much cleaner than browser alert() — non-blocking, auto-dismisses,
-// and shows different colours for success/error/info.
 
 import { useState, useEffect, useCallback } from 'react';
 
-// We use a simple module-level variable to hold the show function
-// so any component can call showToast() without prop drilling
 let toastFn = null;
 
 export const showToast = (message, type = 'info', duration = 4000) => {

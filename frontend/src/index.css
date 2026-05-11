@@ -605,3 +605,321 @@ body {
 }
 
 .toast-close:hover { color: #e2e8f0; }
+
+/* ---- Node Test Button ---- */
+.node-test-btn {
+    background: linear-gradient(135deg, #7c3aed, #5b21b6);
+    color: white;
+    border: none;
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 4px;
+    transition: opacity 0.15s, transform 0.1s;
+    font-family: inherit;
+}
+
+.node-test-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+.node-test-btn:active { transform: translateY(0); }
+.node-test-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.node-test-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* Spinner animation */
+.spinner {
+    width: 10px;
+    height: 10px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    display: inline-block;
+    animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ---- Node Result Box ---- */
+.node-result {
+    margin-top: 6px;
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.node-result-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+    opacity: 0.7;
+}
+
+.node-result-text {
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.node-result-success {
+    background-color: #0f2318;
+    border: 1px solid #22c55e;
+    color: #86efac;
+}
+
+.node-result-error {
+    background-color: #1f0f0f;
+    border: 1px solid #ef4444;
+    color: #fca5a5;
+}
+
+/* ---- History Panel ---- */
+.history-toggle {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 100;
+    background-color: #1a1f2e;
+    border: 1px solid #2d3748;
+    border-radius: 8px;
+    color: #e2e8f0;
+    font-size: 16px;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.15s;
+}
+
+.history-toggle:hover { border-color: #7c3aed; }
+
+.history-panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 300px;
+    background-color: #1a1f2e;
+    border-left: 1px solid #2d3748;
+    z-index: 99;
+    transform: translateX(100%);
+    transition: transform 0.25s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.history-panel-open {
+    transform: translateX(0);
+}
+
+.history-panel-header {
+    padding: 16px;
+    border-bottom: 1px solid #2d3748;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.history-pipeline-name {
+    font-size: 11px;
+    color: #7c3aed;
+    font-weight: 400;
+}
+
+.history-panel-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.history-empty {
+    font-size: 12px;
+    color: #4a5568;
+    text-align: center;
+    padding: 24px 12px;
+    line-height: 1.6;
+}
+
+.history-entry {
+    background-color: #0f1117;
+    border: 1px solid #2d3748;
+    border-radius: 8px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.history-entry-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+.history-dag-badge {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.dag-yes {
+    background-color: #0f2318;
+    color: #22c55e;
+    border: 1px solid #22c55e;
+}
+
+.dag-no {
+    background-color: #1f0f0f;
+    color: #ef4444;
+    border: 1px solid #ef4444;
+}
+
+.history-date {
+    font-size: 10px;
+    color: #4a5568;
+}
+
+.history-entry-stats {
+    display: flex;
+    gap: 12px;
+    font-size: 11px;
+    color: #94a3b8;
+}
+
+/* ---- Submit Area Updates ---- */
+.submit-area {
+  background-color: #1a1f2e;
+  border-top: 1px solid #2d3748;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
+}
+
+.submit-buttons {
+  padding: 12px 20px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.submit-btn-secondary {
+  background-color: #1a1f2e;
+  color: #94a3b8;
+  border: 1px solid #2d3748;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+
+.submit-btn-secondary:hover {
+  border-color: #7c3aed;
+  color: #e2e8f0;
+}
+
+/* ---- Execute Panel ---- */
+.execute-panel {
+  width: 100%;
+  border-top: 1px solid #2d3748;
+  background-color: #161b27;
+}
+
+.execute-panel-header {
+  padding: 10px 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #7c3aed;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid #2d3748;
+}
+
+.execute-panel-body {
+  padding: 12px 20px;
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.execute-panel-body .node-label {
+  min-width: 140px;
+}
+
+.execute-panel-body .node-test-btn {
+  width: auto;
+  padding: 7px 20px;
+  margin-top: 0;
+  align-self: flex-end;
+}
+
+/* ---- Execute Results ---- */
+.execute-results {
+  width: 100%;
+  margin-top: 8px;
+  border-top: 1px solid #2d3748;
+  padding-top: 8px;
+}
+
+.execute-results-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.execute-result-item {
+  background-color: #0f1117;
+  border: 1px solid #2d3748;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 6px;
+}
+
+.execute-result-node {
+  font-size: 10px;
+  color: #7c3aed;
+  font-weight: 600;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.execute-result-value {
+  font-size: 12px;
+  color: #e2e8f0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 80px;
+  overflow-y: auto;
+  line-height: 1.5;
+}

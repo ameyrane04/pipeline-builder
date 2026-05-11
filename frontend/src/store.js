@@ -10,9 +10,6 @@ export const useStore = create((set, get) => ({
     nodes: [],
     edges: [],
     nodeIDs: {},
-
-    // Current saved pipeline id — set when user saves or loads a pipeline
-    // Used to update the correct pipeline on subsequent saves/submits
     currentPipelineId: null,
     currentPipelineName: '',
 
@@ -47,7 +44,22 @@ export const useStore = create((set, get) => ({
         });
     },
 
-    // Load a full pipeline onto the canvas — replaces current nodes/edges
+    // After execution, update each node's data with its result
+    // so the result box renders inside the node on the canvas
+    updateNodeExecutionResult: (nodeId, result) => {
+        set({
+            nodes: get().nodes.map(node => {
+                if (node.id === nodeId) {
+                    return {
+                        ...node,
+                        data: { ...node.data, executionResult: result }
+                    };
+                }
+                return node;
+            })
+        });
+    },
+
     loadPipeline: (pipeline) => {
         set({
             nodes: pipeline.nodes || [],
@@ -57,7 +69,6 @@ export const useStore = create((set, get) => ({
         });
     },
 
-    // Clear canvas completely
     clearCanvas: () => {
         set({
             nodes: [],

@@ -1,6 +1,4 @@
-// pipelineControls.js
-// Save, Load, and Clear pipeline controls.
-// Sits in the toolbar alongside the node chips.
+// pipelineControls
 
 import { useState, useEffect } from 'react';
 import { useStore } from './store';
