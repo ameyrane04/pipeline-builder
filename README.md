@@ -1,6 +1,6 @@
 # Pipeline Builder
 
-A visual AI pipeline builder inspired by tools like n8n and LangFlow. Drag, connect, and configure nodes to build data processing workflows — then submit to validate and analyze your pipeline. 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
+A visual AI pipeline builder inspired by tools like n8n and LangFlow. Drag, connect, and configure nodes to build data processing workflows — then submit to validate and analyze your pipeline.
 
 ![Pipeline Builder](https://img.shields.io/badge/React-18-blue) ![Node](https://img.shields.io/badge/Node.js-Express-green) ![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-brightgreen)
 
